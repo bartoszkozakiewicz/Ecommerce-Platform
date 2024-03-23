@@ -13,11 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <Chat />
         <NavBar />
         <HeaderBar />
         {children}
-        <NewsletterSection />
+        {/* <NewsletterSection /> */}
         <Footer />
       </body>
     </html>

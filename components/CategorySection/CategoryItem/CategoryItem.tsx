@@ -20,7 +20,7 @@ const CategoryItem: FC<Props> = ({
 }) => {
   return (
     <>
-      <div className="flex h-1/2 items-center justify-around border-b-2 border-l-2 hover:cursor-pointer hover:bg-gray-200">
+      <div className="flex h-1/2 flex-row items-center justify-around border-b-2 border-l-2 hover:cursor-pointer hover:bg-gray-200">
         <div className="flex h-full w-2/3 items-center">
           <div className="pl-2 lg:pl-5">
             <h1 className="font-base text-xs md:text-xs lg:text-sm xl:text-base">
