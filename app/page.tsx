@@ -5,7 +5,7 @@ import SendQuoteSection from "@/components/SendQuoteSection/SendQuoteSection";
 import BannerSection from "../components/BannerSection/BannerSection";
 import ServicesSection from "@/components/ServicesSection/ServicesSection";
 import SupplierRegionSection from "@/components/SupplierRegionSection/SupplierRegionSection";
-
+import Chat from "@/components/chat";
 import { Roboto } from "@next/font/google";
 
 const roboto = Roboto({
@@ -37,7 +37,8 @@ import {
 
 export default function Home() {
   return (
-    <main className="bg-[#EFF2F4]">
+    <main className="relative bg-[#EFF2F4]">
+      <Chat />
       <div className={roboto.className}>
         <BannerSection />
         <HotDealsSection />

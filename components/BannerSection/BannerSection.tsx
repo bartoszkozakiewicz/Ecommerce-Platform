@@ -60,7 +60,7 @@ const BannerSection = (props: Props) => {
       </div>
 
       {/* Desktop Login Section */}
-      <div className="relative bottom-2 hidden w-1/6 md:block">
+      {/* <div className="relative bottom-2 hidden w-1/6 md:block">
         <div className="mb-2 h-1/2 flex-col justify-center rounded-md border-2 bg-[#E3F0FF] shadow-lg shadow-gray-400">
           <div className="m-4 flex h-2/5 items-center justify-around">
             <PersonIcon className="h-12 w-12 rounded-full bg-[#C7E1FF] p-3 text-white xl:h-16 xl:w-16" />
@@ -95,7 +95,7 @@ const BannerSection = (props: Props) => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

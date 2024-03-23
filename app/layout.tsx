@@ -3,7 +3,7 @@ import NavBar from "@/components/NavBar/NavBar";
 import "./globals.css";
 import NewsletterSection from "@/components/NewsletterSection/NewsletterSection";
 import Footer from "@/components/Footer/Footer";
-
+import Chat from "@/components/chat";
 export default function RootLayout({
   children,
 }: {
@@ -13,6 +13,7 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
+        <Chat />
         <NavBar />
         <HeaderBar />
         {children}
