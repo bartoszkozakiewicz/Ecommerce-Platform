@@ -4,8 +4,11 @@ import { axiosInstance } from "@/utils/axiosInstance";
 
 const Chat = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [messages, setMessages] = useState(["Witaj w naszym chacie!"]);
+  const [messages, setMessages] = useState([
+    { sender: "bot", msg: "Witaj w naszym chacie!" },
+  ]);
   const [newMessage, setNewMessage] = useState("");
+  const [answearing, setAnswearing] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -21,19 +24,33 @@ const Chat = () => {
 
   console.log("process.env.FAST_API", process.env.PUBLIC_FAST_API);
   const sendMessage = async (e: any) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+    setMessages([...messages, { msg: newMessage, sender: "user" }]);
+    setNewMessage("");
+    setAnswearing(true);
     try {
-      await axiosInstance.post(`http://127.0.0.1:8000/chat`, {
-        message: "message",
-      });
-      console.log("Response:");
+      const response = await axiosInstance
+        .post(`http://127.0.0.1:8000/chat`, {
+          message: newMessage,
+        })
+        .then((response) => {
+          console.log("Response:", response.data.message);
+          setMessages([
+            ...messages,
+            { msg: newMessage, sender: "user" },
+            { msg: response.data.message, sender: "bot" },
+          ]);
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        })
+        .finally(() => {
+          setAnswearing(false);
+        });
     } catch (err) {
       console.log("gowno");
     }
-
-    e.preventDefault();
-    if (!newMessage.trim()) return;
-    setMessages([...messages, newMessage]);
-    setNewMessage("");
   };
   return (
     <div
@@ -42,26 +59,29 @@ const Chat = () => {
       } transition-max-height duration-500 ease-out`}
     >
       {isExpanded && (
-        <div className="flex h-[400px] flex-col justify-between rounded-lg bg-white shadow-lg">
+        <div className="flex h-[500px] flex-col justify-between rounded-lg bg-white shadow-lg">
           <div className="border-b  border-gray-200 p-4">
             <h2 className="text-lg font-semibold">AI Chat</h2>
           </div>
-          <div className="h-[350px] max-h-[350px]  overflow-y-scroll p-4">
+          <div className="h-[500px] max-h-[500px] w-[450px] max-w-[450px]  overflow-y-scroll p-4">
             {messages.map((msg, index) => (
               <div key={index} className="mt-2">
-                <div className="rounded-lg bg-blue-100 p-2 text-blue-800">
-                  {msg}
+                <div
+                  className={`rounded-lg  p-2 ${
+                    msg.sender === "user"
+                      ? "bg-blue-100 text-right text-blue-800"
+                      : "bg-orange-100 text-orange-800"
+                  }`}
+                >
+                  {msg.msg}
                 </div>
               </div>
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <form
-            onSubmit={sendMessage}
-            className="w-[400px] border-t border-gray-200 p-4"
-          >
+          <div className="w-[450px] max-w-[450px] border-t border-gray-200 p-4">
             <input
-              disabled={false}
+              disabled={answearing}
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
@@ -69,12 +89,13 @@ const Chat = () => {
               placeholder="Napisz wiadomość..."
             />
             <button
-              type="submit"
+              // type="submit"
               className="mt-2 w-full rounded-lg bg-blue-500 py-2 px-4 font-bold text-white transition-colors duration-150 hover:bg-blue-700"
+              onClick={sendMessage}
             >
               Wyślij
             </button>
-          </form>
+          </div>
         </div>
       )}
       <button
